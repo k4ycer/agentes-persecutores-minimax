@@ -1,6 +1,16 @@
 .contenedorSimulador{
     margin-top: 20px;
 }
+.contenedorSimulador h1{
+    margin: 20px 0;
+}
+.contenedorSimulador .formaMundo label{
+    width: 170px;
+}
+.contenedorSimulador .formaMundo input[type="number"]{
+    width: 70px;
+    text-align: center;
+}
 .contenedorMundo{
     position: relative;
     min-width: 1000px;

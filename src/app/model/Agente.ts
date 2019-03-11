@@ -15,6 +15,7 @@ export abstract class Agente{
     public observablePosiciones: BehaviorSubject<ElementoMundo[]>;
     public enemigo: Agente;
     public heuristicas: Heuristicas;
+    protected diagonalActivado: boolean;
 
     constructor(mundo: Mundo, posicionActual: ElementoMundo, sensor?: Sensor, enemigo?: Agente, heuristicas?: Heuristicas){
         this.mundo = mundo;
@@ -116,6 +117,7 @@ export abstract class Agente{
                         this.calcularPosicionesDiagonalesPosibles(posicionActual, percepcion).forEach(posicionBlanco => {
                             posicionesFiltradas.push(new NodoMiniMax(posicionBlanco, posicionesPosibles[0].posicionNegro, null));
                         });
+                        this.diagonalActivado = true;
                     }                
                 } 
             }else{
@@ -175,6 +177,18 @@ export abstract class Agente{
     }
 
     evaluarUtilidadNodo(nodo: NodoMiniMax): number{
-        return Math.abs(nodo.posicionBlanco.posicion.fila - nodo.posicionNegro.posicion.fila) + Math.abs(nodo.posicionBlanco.posicion.columna - nodo.posicionNegro.posicion.columna);
+        let x1 = nodo.posicionBlanco.posicion.fila,
+            x2 = nodo.posicionNegro.posicion.fila,
+            y1 = nodo.posicionBlanco.posicion.columna,
+            y2 = nodo.posicionNegro.posicion.columna;
+
+        if(this.diagonalActivado){
+            // Si es una celda que esta a un paso diagonal entonces la formula de distancia devuelve 1
+            if(Math.floor(Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2))) == 1){
+                return 1;
+            }
+        }
+            
+        return Math.abs(nodo.posicionBlanco.posicion.fila - nodo.posicionNegro.posicion.fila) + Math.abs(nodo.posicionBlanco.posicion.columna - nodo.posicionNegro.posicion.columna);                
     }
 }

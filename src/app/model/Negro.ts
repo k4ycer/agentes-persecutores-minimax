@@ -13,6 +13,7 @@ export class Negro extends Agente{
     }
 
     calcularSiguientePosicion(profundidad: number, tiro: number): ElementoMundo{
+        this.diagonalActivado = false;
         let nodoMiniMax = this.minimax(new NodoMiniMax(this.enemigo.posicionActual, this.posicionActual, null), profundidad, true, tiro);
 
         return nodoMiniMax.posicionNegro;
