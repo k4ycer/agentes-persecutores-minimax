@@ -1,20 +1,52 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<h1 class="text-center">Agente Inteligente</h1>
+<div class="container contenedorSimulador">
+	<div class="row">
+		<div class="col-12 col-lg-9">
+			<label>Tamaño X: </label>
+			<input type="number" [(ngModel)]="tamanioX"><br>
+			<label>Tamaño Y: </label>
+			<input type="number" [(ngModel)]="tamanioY"><br>
+			<label>Coordenada Blanco: </label>
+			<input type="number" [(ngModel)]="coordenadaBlanco.fila" placeholder="x">
+			<input type="number" [(ngModel)]="coordenadaBlanco.columna" placeholder="y"><br>
+			<label>Coordenada Negro: </label>
+			<input type="number" [(ngModel)]="coordenadaNegro.fila" placeholder="x">
+			<input type="number" [(ngModel)]="coordenadaNegro.columna" placeholder="y"><br>
+			<br>
+			<b>Heurísticas Blanco:</b><br>
+			<input type="checkbox" [(ngModel)]="heuristicasBlanco.diagonalEveryFive" value="true"> Diagonal cada 5 tiros<br>
 
+			<br>
+			<b>Heurísticas Negro:</b><br>
+			<input type="checkbox" [(ngModel)]="heuristicasNegro.randomEveryThree" value="true"> Aleatorio cada 3 tiros<br>
+
+			<br>
+			<button (click)="crearJuego()">Crear Mundo</button>
+		</div>
+	</div>
+	<div class="row" *ngIf="mundo">
+		<div class="col-12 col-lg-9">
+			<div class="contenedorMundo">
+				<div class="fila" *ngFor="let fila of mundo.mapa">
+					<div class="elementoMundo" *ngFor="let elementoMundo of fila" attr.id="elemento_{{elementoMundo.id}}" [ngClass]="{'nulo': elementoMundo.tipoElemento == 0, 'objeto': elementoMundo.tipoElemento == 1, 'libre': elementoMundo.tipoElemento == 2, 'salida': elementoMundo.tipoElemento == 3}">
+						<span *ngIf="elementoMundo.ocupado">1</span>
+						<span *ngIf="!elementoMundo.ocupado">0</span>
+					</div>
+				</div>
+				<div id="blanco" class="agente">
+					B
+				</div>
+				<div id="negro" class="agente">
+					N
+				</div>
+			</div>
+			<br>
+			<button (click)="siguienteJugada()">Siguiente jugada</button><br><br>
+			<input type="number" [(ngModel)]="limite">
+			<button (click)="jugarHastaLimite()">Jugar hasta limite</button>
+		</div>		
+	</div>	
+	<br>
+	<br>
+	<br>
+</div>
